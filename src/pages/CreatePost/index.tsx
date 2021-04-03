@@ -1,5 +1,5 @@
-import { FormEvent, useContext, useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { FormEvent, useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { LoginContext } from '../../LoginContext';
@@ -93,8 +93,6 @@ export function CreatePost() {
 
         <button type="submit">Create Post</button>
       </PostForm>
-
-      <ToastContainer />
     </>
   )
 }

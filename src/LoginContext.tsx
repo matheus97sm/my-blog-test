@@ -1,16 +1,19 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
+import { decode } from 'jsonwebtoken';
+
+import { api } from './services/api';
 
 interface LoggedUserDataProps {
   token: string
-  user_display_name: string
-  user_email: string
+  display_name: string
+  email: string
 }
 
 interface LoginProps {
   loggedUserInfo: {
     token: string
-    user_display_name: string
-    user_email: string
+    display_name: string
+    email: string
   }
   loggedUser: boolean
   handleSetLoggedUser: (loggedUserData: LoggedUserDataProps) => void
@@ -39,10 +42,20 @@ export function LoginProvider({ children }: LoginProviderProps) {
   }, []);
 
   function handleSetLoggedUser(loggedUserData: LoggedUserDataProps) {
-    setLoggedUser(true);
-    setLoggedUserInfo(loggedUserData);
+    const userTokenDecoded = decode(loggedUserData.token) as null | { [key: string]: any };
+    const userId = userTokenDecoded?.data.user.id;
 
-    sessionStorage.setItem('signature', JSON.stringify(loggedUserData));
+    api.get(`users/${userId}`)
+      .then(response => {
+        console.log(response.data)
+      })
+
+    console.log(loggedUserData);
+
+    // setLoggedUser(true);
+    // setLoggedUserInfo(loggedUserData);
+
+    // sessionStorage.setItem('signature', JSON.stringify(loggedUserData));
   }
 
   return (

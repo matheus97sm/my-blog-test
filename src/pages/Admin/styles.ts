@@ -1,8 +1,5 @@
+import { lighten } from 'polished';
 import styled from 'styled-components';
-
-interface AdminProps {
-  error: boolean
-}
 
 export const Container = styled.div`
   width: 90%;
@@ -16,16 +13,35 @@ export const Container = styled.div`
   }
 `;
 
-export const UserLogin = styled.form<AdminProps>`
+export const UserButtonsContainer = styled.div`
+  width: 100%;
   max-width: 300px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  margin: 0 auto 1rem;
+  display: grid;
   gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+`;
 
-  p {
-    color: var(--alert);
-    font-size: .8rem;
-    display: ${props => props.error ? 'block' : 'none'};
+interface UserButtonProps {
+  isSelected: boolean
+}
+
+export const UserButton = styled.button<UserButtonProps>`
+  padding: 0.75rem 2rem;
+
+  background-color: ${props => props.isSelected ? 'var(--purple)' : '#fff'};
+  box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+  border: none;
+  border-radius: .25rem;
+
+  font-size: 1rem;
+
+  transition: .3s background-color, .3s color;
+  color: ${props => props.isSelected ? '#fff' : 'var(--purple)'};
+  cursor: pointer;
+
+  &:hover {
+    color: #fff;
+    background-color: ${lighten(0.1, '#9F00DB')}
   }
 `;

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import { Header } from './components/Header';
 import { LoginProvider } from './LoginContext';
@@ -23,6 +24,8 @@ export function App() {
         </Switch>
 
         <GlobalStyles />
+
+        <ToastContainer />
       </BrowserRouter>
     </LoginProvider>
   );
