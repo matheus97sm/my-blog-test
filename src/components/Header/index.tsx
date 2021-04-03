@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { LoginContext } from '../../LoginContext';
 
-import { Container } from './styles';
+import { Container, UserInfoHeader } from './styles';
 
 export function Header() {
+  const { loggedUser, loggedUserInfo, handleSetLogoffUser } = useContext(LoginContext);
+
   const [isHome, setIsHome] = useState(false);
   const { pathname } = useLocation();
 
@@ -23,7 +26,19 @@ export function Header() {
 
         <nav>
           <Link to="/">Home</Link>
-          <Link to="/admin">Admin</Link>
+          <Link to="/blog">Blog</Link>
+          <Link to="/login">Login</Link>
+
+          {
+            !!loggedUser && (
+              <UserInfoHeader>
+                <div>
+                  <strong>{loggedUserInfo.display_name}</strong>
+                  <span onClick={handleSetLogoffUser}>Logout</span>
+                </div>
+              </UserInfoHeader>
+            )
+          }
         </nav>
       </div>
     </Container>

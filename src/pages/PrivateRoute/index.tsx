@@ -4,13 +4,13 @@ import { Route, Redirect } from 'react-router-dom';
 import { LoginContext } from '../../LoginContext';
 
 export function PrivateRoute({ component, ...rest }: any) {
-  const { loggedUser } = useContext(LoginContext);
+  const { loggedUser, loggedUserInfo } = useContext(LoginContext);
 
   return (
     <Route {...rest} render={(props: any) => (
-      !!loggedUser ?
+      !!loggedUser && Number(loggedUserInfo.role) === 10 ?
         React.createElement(component, props)
-        : <Redirect to="/admin" />
+        : <Redirect to="/" />
     )} />
   );
 }

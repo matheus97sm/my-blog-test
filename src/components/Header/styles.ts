@@ -11,7 +11,7 @@ export const Container = styled.header<HeaderProps>`
   width: 100%;
   background-color: ${props => props.isHome ? 'transparent' : 'var(--black)'};
 
-  div {
+  > div {
     width: 90%;
     max-width: 1080px;
     padding: 2rem 0;
@@ -34,6 +34,7 @@ export const Container = styled.header<HeaderProps>`
 
     nav {
       display: flex;
+      align-items: center;
       gap: 32px;
 
       a {
@@ -46,6 +47,27 @@ export const Container = styled.header<HeaderProps>`
           color: ${props => props.isHome ? 'var(--pink)' : 'var(--purple)'};
         }
       }
+    }
+  }
+`;
+
+export const UserInfoHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    
+    strong {
+      color: #fff;
+    }
+
+    span {
+      color: #fff;
+      font-size: .7rem;
+      cursor: pointer;
     }
   }
 `;

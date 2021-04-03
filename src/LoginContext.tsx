@@ -1,22 +1,17 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { decode } from 'jsonwebtoken';
-
-import { api } from './services/api';
 
 interface LoggedUserDataProps {
   token: string
   display_name: string
   email: string
+  role: string
 }
 
 interface LoginProps {
-  loggedUserInfo: {
-    token: string
-    display_name: string
-    email: string
-  }
+  loggedUserInfo: LoggedUserDataProps
   loggedUser: boolean
   handleSetLoggedUser: (loggedUserData: LoggedUserDataProps) => void
+  handleSetLogoffUser: () => void
 }
 
 interface LoginProviderProps {
@@ -42,24 +37,19 @@ export function LoginProvider({ children }: LoginProviderProps) {
   }, []);
 
   function handleSetLoggedUser(loggedUserData: LoggedUserDataProps) {
-    const userTokenDecoded = decode(loggedUserData.token) as null | { [key: string]: any };
-    const userId = userTokenDecoded?.data.user.id;
+    setLoggedUser(true);
+    setLoggedUserInfo(loggedUserData);
 
-    api.get(`users/${userId}`)
-      .then(response => {
-        console.log(response.data)
-      })
+    sessionStorage.setItem('signature', JSON.stringify(loggedUserData));
+  }
 
-    console.log(loggedUserData);
-
-    // setLoggedUser(true);
-    // setLoggedUserInfo(loggedUserData);
-
-    // sessionStorage.setItem('signature', JSON.stringify(loggedUserData));
+  function handleSetLogoffUser() {
+    setLoggedUser(false);
+    sessionStorage.removeItem('signature');
   }
 
   return (
-    <LoginContext.Provider value={{ loggedUserInfo, loggedUser, handleSetLoggedUser }}>
+    <LoginContext.Provider value={{ loggedUserInfo, loggedUser, handleSetLoggedUser, handleSetLogoffUser }}>
       {children}
     </LoginContext.Provider>
   )
