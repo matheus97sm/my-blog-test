@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-function App() {
+import { Header } from './components/Header';
+import { LoginProvider } from './LoginContext';
+import { Admin } from './pages/Admin';
+import { CreatePost } from './pages/CreatePost';
+import { Home } from './pages/Home';
+import { PrivateRoute } from './pages/PrivateRoute';
+
+import { GlobalStyles } from './styles/Global';
+
+export function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LoginProvider>
+      <BrowserRouter>
+        <Header />
+
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/admin" exact component={Admin} />
+
+          <PrivateRoute path="/admin/create-post" exact component={CreatePost} />
+        </Switch>
+
+        <GlobalStyles />
+      </BrowserRouter>
+    </LoginProvider>
   );
 }
-
-export default App;
